@@ -5,19 +5,19 @@
 This benchmark demonstrates the performance differences between heap tables and clustered indexes in SQL Server, with a focus on sorting operations using a 1 million row dataset.
 
 ## Key Findings
-- Clustered indexes execute sorted queries **5.09x faster** than heaps
-- Sort operations are **completely eliminated** (saving 4.45s per query)
+- Clustered indexes execute sorted queries **~1.5x faster** than heaps
+- Sort operations are **completely eliminated** 
 - **43x reduction** in I/O costs for ordered queries
-- Sorting accounts for **97.6%** of heap query cost
+- Sorting accounts for **~98%** of heap query cost
 
 ## Benchmark Results
 
 ```sql
 -- Heap table with ORDER BY
-SELECT * FROM [fact_table_heap] ORDER BY [payment_key] -- 5.909s
+SELECT * FROM [fact_table_heap] ORDER BY [payment_key] -- 3.115s
 
 -- Clustered index with ORDER BY
-SELECT * FROM [fact_table] ORDER BY [payment_key] -- 1.161s
+SELECT * FROM [fact_table] ORDER BY [payment_key] -- 1.974s
 ```
 
 
@@ -28,7 +28,7 @@ SELECT * FROM [fact_table] ORDER BY [payment_key] -- 1.161s
 | Total Cost      | 427.56     | 10.28           | 41.6x       |
 | CPU Cost        | 30.06      | 1.10            | 27.3x       |
 | I/O Cost        | 397.50     | 9.18            | 43.3x       |
-| Execution Time  | 5.909s     | 1.161s          | 5.09x       |
+| Execution Time  | 3.115s     | 1.974s          | 1.58x       |
 
 ## Index Usage Recommendations
 
