@@ -98,7 +98,7 @@ Execution Plan Analysis:
 |-----------------|----------------|-----------------|-----------|
 | CPU Cost        | 30.06296       | 1.10016         | 27x       |
 | IO Cost         | 397.49772      | 9.17572         | 43x       |
-| Execution Time  | ~5.909s        | ~1.161s         | 5x        |
+| Execution Time  | 3.115s         | 1.974s          | 1.58x     |
 | Plan Complexity | Scan + Sort    | Scan only       | Simpler   |
 --------------------------------------------------
 
@@ -125,4 +125,5 @@ PROFESSIONAL RECOMMENDATIONS:
    - Tables never accessed with ORDER BY
    - Extremely low-memory environments
    - Tables that might be deleted later
+
 */
