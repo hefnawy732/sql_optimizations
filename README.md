@@ -52,3 +52,7 @@ Folder: SQL-Optimization/Heap-VS-Clustered Executions Plans
 1. Download the .sqlplan files
 2. Open in SQL Server Management Studio
 3. Right-click → "Show Execution Plan XML" for detailed analysis
+
+For the tables: There were too large to be uploaded, Feel free to download from here: https://www.kaggle.com/datasets/mmohaiminulislam/ecommerce-data-analysis?select=fact_table.csv
+
+Thanks
