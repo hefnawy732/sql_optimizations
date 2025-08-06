@@ -1,4 +1,4 @@
-# sql_optimizations
+
 # SQL Server Index Performance: Heap vs Clustered Index
 
 ## Overview
@@ -43,3 +43,12 @@ SELECT * FROM [fact_table] ORDER BY [payment_key] -- 1.161s
 - Using temporary tables with short lifespans
 - Tables never require sorted access
 - Operating in extreme low-memory scenarios
+
+## Execution Plan Files
+The repository includes actual execution plans for analysis:
+Folder: SQL-Optimization/Heap-VS-Clustered Executions Plans
+
+**Instructions**:
+1. Download the .sqlplan files
+2. Open in SQL Server Management Studio
+3. Right-click → "Show Execution Plan XML" for detailed analysis
