@@ -127,3 +127,60 @@ PROFESSIONAL RECOMMENDATIONS:
    - Tables that might be deleted later
 
 */
+
+
+-- =============================================
+-- 2- DEMONSTRATING Filtering on NON-CLUSTERED INDEX DIFFERENCES
+-- =============================================
+
+-- 1. Filtering on a non-indexed column in a clustered table
+SELECT * FROM [fact_table]
+WHERE [fact_table].store_key = 6
+/*
+Clustered Index Scan (Inefficient for this query)
+• Reads: All 1M rows
+• Cost: 10.27588
+• Duration: 379ms
+• No index benefit for filtering
+*/
+
+-- 2. Filtering on a NON-CLUSTERED INDEX SEEK
+-- Creating a nonclustered index on store_key column
+CREATE NONCLUSTERED INDEX idx_store_key ON Fact_table(store_key);
+
+SELECT * FROM [fact_table]
+WHERE [fact_table].store_key = 6
+/*
+Index Seek (Highly Efficient) + Key LookUp (For pulling the rest of the row)
+• Reads: Only 1,386 matching rows
+• Cost: 0.0219574 (467x better)
+• Duration: 61ms (6.2x faster)
+*/
+
+-- Filtering on non_clustered for retrieving the same column values "Store_key"
+SELECT store_key FROM [fact_table]
+WHERE [fact_table].store_key = 6
+/*
+Index Seek (Only) The most efficient
+• Reads: Only 1,386 matching rows
+• Cost: 0.0129079
+*/
+
+/*
+PROFESSIONAL RECOMMENDATIONS:
+
+Prioritize non-clustered indexes for:
+- All foreign key columns (critical for join performance)
+- High-selectivity candidate keys (unique/near-unique values)
+- Frequently filtered columns (common WHERE clause predicates)
+
+Sorting performance considerations:
+[Optimal] Clustered index scan - utilizes inherent sort order
+[Suboptimal] Heap table sort - requires explicit sorting operation
+
+Filtering efficiency hierarchy:
+[Most Efficient] Clustered index seek (when filtering on clustered key)
+[Highly Efficient] Non-clustered index seek (filtering on indexed column only)
+[Less Efficient] Non-clustered seek with key lookup (retrieving additional columns)
+*/
+
