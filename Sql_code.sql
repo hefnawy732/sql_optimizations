@@ -184,3 +184,30 @@ Filtering efficiency hierarchy:
 [Less Efficient] Non-clustered seek with key lookup (retrieving additional columns)
 */
 
+-- =====================================================
+-- 3- DEMONSTRATING RowStore VS ColumnStore DIFFERENCES
+-- =====================================================
+
+-- Doing analysis on RowStored table (Not advised)
+SELECT Coustomer_key, SUM(total_price)
+FROM [fact_table]
+WHERE Coustomer_key = 'C000001'
+GROUP BY Coustomer_key
+-- Total Cost: 8.26272
+
+
+-- Doing the same calculation on a columnStored table would be best 
+SELECT * 
+INTO [fact_table_ColumnStored]
+FROM [fact_table]
+
+CREATE CLUSTERED COLUMNSTORE INDEX idx_columnStored
+ON fact_table_ColumnStored;
+
+SELECT Coustomer_key, SUM(total_price)
+FROM [fact_table_ColumnStored]
+WHERE Coustomer_key = 'C000001'
+GROUP BY Coustomer_key
+-- Total Cost: 0.224154 (~x37 better than RowStored)
+
+
